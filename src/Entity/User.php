@@ -46,6 +46,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?RoleTypeEnum $type = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $passwordUpdatedAt = null;
+
     public function __construct()
     {
         $this->type = RoleTypeEnum::User;
@@ -156,6 +159,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->plainPassword = $plainPassword;
 
+        if ($plainPassword) {
+            $this->setPasswordUpdatedAt(new \DateTimeImmutable);
+        }
+
         return $this;
     }
 
@@ -167,6 +174,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setType(RoleTypeEnum $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getPasswordUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->passwordUpdatedAt;
+    }
+
+    public function setPasswordUpdatedAt(?\DateTimeImmutable $passwordUpdatedAt): self
+    {
+        $this->passwordUpdatedAt = $passwordUpdatedAt;
 
         return $this;
     }

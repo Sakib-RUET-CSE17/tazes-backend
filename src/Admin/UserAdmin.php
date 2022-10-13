@@ -21,6 +21,7 @@ final class UserAdmin extends AbstractAdmin
             ->add('id')
             ->add('email')
             ->add('type')
+            ->add('passwordUpdatedAt')
             ->add('isVerified');
     }
 
@@ -31,6 +32,7 @@ final class UserAdmin extends AbstractAdmin
             ->add('email')
             ->add('type', 'enum')
             ->add('roles')
+            ->add('passwordUpdatedAt')
             ->add('isVerified')
             ->add(ListMapper::NAME_ACTIONS, null, [
                 'actions' => [
@@ -45,7 +47,7 @@ final class UserAdmin extends AbstractAdmin
     {
         $form
             ->add('email')
-            // ->add('roles')
+            ->add('plainPassword')
             ->add('type', EnumType::class,[
                 'class' => RoleTypeEnum::class,
             ])
@@ -59,6 +61,8 @@ final class UserAdmin extends AbstractAdmin
             ->add('email')
             ->add('type', 'enum')
             ->add('roles')
-            ->add('isVerified');
+            ->add('isVerified')
+            ->add('passwordUpdatedAt')
+            ;
     }
 }

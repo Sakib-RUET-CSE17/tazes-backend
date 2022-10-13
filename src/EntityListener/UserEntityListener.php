@@ -69,11 +69,12 @@ class UserEntityListener
 
     public function preUpdate(User $user, PreUpdateEventArgs $event)
     {
-        $changes = $event->getEntityChangeSet();
-        if (isset($changes['password']) && $changes['password']) {
+        // $changes = $event->getEntityChangeSet();
+        $plainPassword = $user->getPlainPassword();
+        if ($plainPassword) {
             $user->setPassword($this->userPasswordHasher->hashPassword(
                 $user,
-                $user->getPlainPassword()
+                $plainPassword
             ));
         }
     }
