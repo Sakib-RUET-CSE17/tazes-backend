@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
+use App\Enum\RoleTypeEnum;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 
 final class UserAdmin extends AbstractAdmin
 {
@@ -18,8 +20,8 @@ final class UserAdmin extends AbstractAdmin
         $filter
             ->add('id')
             ->add('email')
-            ->add('isVerified')
-            ;
+            ->add('type')
+            ->add('isVerified');
     }
 
     protected function configureListFields(ListMapper $list): void
@@ -27,6 +29,7 @@ final class UserAdmin extends AbstractAdmin
         $list
             ->add('id')
             ->add('email')
+            ->add('type', 'enum')
             ->add('roles')
             ->add('isVerified')
             ->add(ListMapper::NAME_ACTIONS, null, [
@@ -43,9 +46,10 @@ final class UserAdmin extends AbstractAdmin
         $form
             ->add('email')
             // ->add('roles')
-            ->add('plainPassword')
-            ->add('isVerified')
-            ;
+            ->add('type', EnumType::class,[
+                'class' => RoleTypeEnum::class,
+            ])
+            ->add('isVerified');
     }
 
     protected function configureShowFields(ShowMapper $show): void
@@ -53,8 +57,8 @@ final class UserAdmin extends AbstractAdmin
         $show
             ->add('id')
             ->add('email')
+            ->add('type', 'enum')
             ->add('roles')
-            ->add('isVerified')
-            ;
+            ->add('isVerified');
     }
 }

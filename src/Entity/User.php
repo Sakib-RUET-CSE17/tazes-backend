@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\RoleTypeEnum;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -41,6 +42,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // maxMessage: 'Your password cannot be longer than {{ limit }} characters',
     )]
     private ?string $plainPassword = null;
+
+    #[ORM\Column(length: 255)]
+    private ?RoleTypeEnum $type = null;
+
+    public function __construct()
+    {
+        $this->type = RoleTypeEnum::User;
+    }
 
     public function getId(): ?int
     {
@@ -82,6 +91,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
+
+        switch ($this->type) {
+            case RoleTypeEnum::Admin:
+                $roles[] = 'ROLE_ADMIN';
+                break;
+            case RoleTypeEnum::User:
+                $roles[] = 'ROLE_USER';
+                break;
+        }
 
         return array_unique($roles);
     }
@@ -137,6 +155,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPlainPassword(string $plainPassword): self
     {
         $this->plainPassword = $plainPassword;
+
+        return $this;
+    }
+
+    public function getType(): ?RoleTypeEnum
+    {
+        return $this->type;
+    }
+
+    public function setType(RoleTypeEnum $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }
