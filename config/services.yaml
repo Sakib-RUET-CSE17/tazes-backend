@@ -41,3 +41,8 @@ services:
         class: App\Admin\UserAdmin
         tags:
             - { name: sonata.admin, model_class: App\Entity\User, controller: ~, manager_type: orm, group: admin, label: User }
+
+    admin.book:
+        class: App\Admin\BookAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Book, controller: ~, manager_type: orm, group: admin, label: Book }

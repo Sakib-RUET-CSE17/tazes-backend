@@ -19,7 +19,9 @@ final class UserAdmin extends AbstractAdmin
     {
         $filter
             ->add('id')
+            ->add('roll')
             ->add('email')
+            ->add('mobile')
             ->add('type')
             ->add('passwordUpdatedAt')
             ->add('isVerified');
@@ -29,7 +31,9 @@ final class UserAdmin extends AbstractAdmin
     {
         $list
             ->add('id')
+            ->add('roll')
             ->add('email')
+            ->add('mobile')
             ->add('type', 'enum')
             ->add('roles')
             ->add('passwordUpdatedAt')
@@ -46,9 +50,11 @@ final class UserAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $form): void
     {
         $form
+            ->add('roll')
             ->add('email')
+            ->add('mobile')
             ->add('plainPassword')
-            ->add('type', EnumType::class,[
+            ->add('type', EnumType::class, [
                 'class' => RoleTypeEnum::class,
             ])
             ->add('isVerified');
@@ -58,11 +64,12 @@ final class UserAdmin extends AbstractAdmin
     {
         $show
             ->add('id')
+            ->add('roll')
             ->add('email')
+            ->add('mobile')
             ->add('type', 'enum')
             ->add('roles')
             ->add('isVerified')
-            ->add('passwordUpdatedAt')
-            ;
+            ->add('passwordUpdatedAt');
     }
 }
