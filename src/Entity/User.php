@@ -55,6 +55,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $mobile = null;
 
+    #[ORM\OneToOne(mappedBy: 'user_', cascade: ['persist', 'remove'])]
+    private ?BookLend $bookLend = null;
+
     public function __construct()
     {
         $this->type = RoleTypeEnum::User;
@@ -216,6 +219,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setMobile(?string $mobile): self
     {
         $this->mobile = $mobile;
+
+        return $this;
+    }
+
+    public function getBookLend(): ?BookLend
+    {
+        return $this->bookLend;
+    }
+
+    public function setBookLend(?BookLend $bookLend): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($bookLend === null && $this->bookLend !== null) {
+            $this->bookLend->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($bookLend !== null && $bookLend->getUser() !== $this) {
+            $bookLend->setUser($this);
+        }
+
+        $this->bookLend = $bookLend;
 
         return $this;
     }

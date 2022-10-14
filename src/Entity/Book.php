@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\BookRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
@@ -27,6 +29,19 @@ class Book
 
     #[ORM\Column(nullable: true)]
     private ?int $availableQty = null;
+
+    #[ORM\ManyToMany(targetEntity: BookLend::class, mappedBy: 'books')]
+    private Collection $bookLends;
+
+    public function __construct()
+    {
+        $this->bookLends = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return 'book - ' . $this->title;
+    }
 
     public function getId(): ?int
     {
@@ -89,6 +104,33 @@ class Book
     public function setAvailableQty(?int $availableQty): self
     {
         $this->availableQty = $availableQty;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, BookLend>
+     */
+    public function getBookLends(): Collection
+    {
+        return $this->bookLends;
+    }
+
+    public function addBookLend(BookLend $bookLend): self
+    {
+        if (!$this->bookLends->contains($bookLend)) {
+            $this->bookLends->add($bookLend);
+            $bookLend->addBook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBookLend(BookLend $bookLend): self
+    {
+        if ($this->bookLends->removeElement($bookLend)) {
+            $bookLend->removeBook($this);
+        }
 
         return $this;
     }
