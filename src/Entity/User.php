@@ -49,6 +49,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $passwordUpdatedAt = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $roll = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $mobile = null;
+
     public function __construct()
     {
         $this->type = RoleTypeEnum::User;
@@ -186,6 +192,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPasswordUpdatedAt(?\DateTimeImmutable $passwordUpdatedAt): self
     {
         $this->passwordUpdatedAt = $passwordUpdatedAt;
+
+        return $this;
+    }
+
+    public function getRoll(): ?string
+    {
+        return $this->roll;
+    }
+
+    public function setRoll(?string $roll): self
+    {
+        $this->roll = $roll;
+
+        return $this;
+    }
+
+    public function getMobile(): ?string
+    {
+        return $this->mobile;
+    }
+
+    public function setMobile(?string $mobile): self
+    {
+        $this->mobile = $mobile;
 
         return $this;
     }

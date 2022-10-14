@@ -18,7 +18,7 @@ class UserFixtures extends Fixture
     {
         // System Admin
         $systemAdmin = new User();
-        $systemAdmin->setEmail('admin@mcm-starter.com');
+        $systemAdmin->setEmail('admin@tazes.com');
         $systemAdmin->setPlainPassword('aaaaaa');
         $systemAdmin->setIsVerified(true);
         // Password: admin_pass
@@ -30,7 +30,7 @@ class UserFixtures extends Fixture
         for ($i = 1; $i <= 20; $i++) {
             // user
             $user = new User();
-            $user->setEmail('user' . strval($i) . '@mcm-starter.com');
+            $user->setEmail('user' . strval($i) . '@tazes.com');
             $user->setPlainPassword('aaaaaa');
             $user->setIsVerified(true);
             $user->setType(RoleTypeEnum::User);
