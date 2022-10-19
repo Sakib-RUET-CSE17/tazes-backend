@@ -5,6 +5,7 @@ type: php:8.1
 runtime:
     extensions:
         - apcu
+        - pdo_pgsql
         - mbstring
         - sodium
         - ctype
@@ -43,6 +44,9 @@ workers:
 
 mounts:
     "/var": { source: local, source_path: var }
+
+relationships:
+    database: "database:postgresql"
 
 hooks:
     build: |
