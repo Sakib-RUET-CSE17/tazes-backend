@@ -32,7 +32,7 @@ class BookLend
 
     public function __toString()
     {
-        return 'lend - ' . $this->user_;
+        return 'lend-' . $this->id . '-' . $this->user_;
     }
 
     public function getId(): ?int

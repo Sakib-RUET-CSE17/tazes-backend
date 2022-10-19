@@ -30,6 +30,11 @@ class BookReturn
         $this->books = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return 'return-' . $this->id . '-' . $this->user_;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

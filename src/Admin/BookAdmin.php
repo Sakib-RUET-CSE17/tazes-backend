@@ -22,6 +22,7 @@ final class BookAdmin extends AbstractAdmin
             ->add('edition')
             ->add('totalQty')
             ->add('availableQty')
+            ->add('bookByTazesIds')
             ;
     }
 
@@ -34,6 +35,7 @@ final class BookAdmin extends AbstractAdmin
             ->add('edition')
             ->add('totalQty')
             ->add('availableQty')
+            ->add('bookByTazesIds')
             ->add(ListMapper::NAME_ACTIONS, null, [
                 'actions' => [
                     'show' => [],
@@ -51,6 +53,7 @@ final class BookAdmin extends AbstractAdmin
             ->add('edition')
             ->add('totalQty')
             ->add('availableQty')
+            // ->add('bookByTazesIds')
             ;
     }
 
@@ -63,6 +66,7 @@ final class BookAdmin extends AbstractAdmin
             ->add('edition')
             ->add('totalQty')
             ->add('availableQty')
+            ->add('bookByTazesIds')
             ;
     }
 }

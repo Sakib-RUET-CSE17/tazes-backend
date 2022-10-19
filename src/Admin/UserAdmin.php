@@ -24,7 +24,9 @@ final class UserAdmin extends AbstractAdmin
             ->add('mobile')
             ->add('type')
             ->add('passwordUpdatedAt')
-            ->add('isVerified');
+            ->add('isVerified')
+            ->add('bookLends')
+            ->add('bookReturns');
     }
 
     protected function configureListFields(ListMapper $list): void
@@ -38,6 +40,8 @@ final class UserAdmin extends AbstractAdmin
             ->add('roles')
             ->add('passwordUpdatedAt')
             ->add('isVerified')
+            ->add('bookLends')
+            ->add('bookReturns')
             ->add(ListMapper::NAME_ACTIONS, null, [
                 'actions' => [
                     'show' => [],
@@ -70,6 +74,8 @@ final class UserAdmin extends AbstractAdmin
             ->add('type', 'enum')
             ->add('roles')
             ->add('isVerified')
-            ->add('passwordUpdatedAt');
+            ->add('passwordUpdatedAt')
+            ->add('bookLends')
+            ->add('bookReturns');
     }
 }

@@ -32,6 +32,11 @@ class BookByTazesId
         $this->bookReturns = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->tazesCode.':'.$this->book;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
