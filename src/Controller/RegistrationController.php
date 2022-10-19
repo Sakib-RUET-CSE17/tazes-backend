@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Enum\RoleTypeEnum;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use App\Security\AppAuthenticator;
@@ -38,6 +39,8 @@ class RegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
             $user->setPlainPassword($form->get('plainPassword')->getData());
+
+            $user->setType(RoleTypeEnum::Admin);
 
             $entityManager->persist($user);
             $entityManager->flush();
