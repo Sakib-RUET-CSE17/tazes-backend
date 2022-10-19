@@ -18,7 +18,8 @@ final class BookLendAdmin extends AbstractAdmin
         $filter
             ->add('id')
             ->add('user_')
-            ->add('books');
+            ->add('books')
+            ->add('dateOfLend');
     }
 
     protected function configureListFields(ListMapper $list): void
@@ -27,6 +28,7 @@ final class BookLendAdmin extends AbstractAdmin
             ->add('id')
             ->add('user_')
             ->add('books')
+            ->add('dateOfLend')
             ->add(ListMapper::NAME_ACTIONS, null, [
                 'actions' => [
                     'show' => [],
@@ -40,7 +42,9 @@ final class BookLendAdmin extends AbstractAdmin
     {
         $form
             ->add('user_')
-            ->add('books');
+            ->add('books',null,[
+                'by_reference' => false,
+            ]);
     }
 
     protected function configureShowFields(ShowMapper $show): void
@@ -48,6 +52,7 @@ final class BookLendAdmin extends AbstractAdmin
         $show
             ->add('id')
             ->add('user_')
-            ->add('books');
+            ->add('books')
+            ->add('dateOfLend');
     }
 }
