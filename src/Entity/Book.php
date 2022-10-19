@@ -33,9 +33,13 @@ class Book
     #[ORM\ManyToMany(targetEntity: BookLend::class, mappedBy: 'books')]
     private Collection $bookLends;
 
+    #[ORM\OneToMany(mappedBy: 'book', targetEntity: BookByTazesId::class)]
+    private Collection $bookByTazesIds;
+
     public function __construct()
     {
         $this->bookLends = new ArrayCollection();
+        $this->bookByTazesIds = new ArrayCollection();
     }
 
     public function __toString()
@@ -130,6 +134,36 @@ class Book
     {
         if ($this->bookLends->removeElement($bookLend)) {
             $bookLend->removeBook($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, BookByTazesId>
+     */
+    public function getBookByTazesIds(): Collection
+    {
+        return $this->bookByTazesIds;
+    }
+
+    public function addBookByTazesId(BookByTazesId $bookByTazesId): self
+    {
+        if (!$this->bookByTazesIds->contains($bookByTazesId)) {
+            $this->bookByTazesIds->add($bookByTazesId);
+            $bookByTazesId->setBook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBookByTazesId(BookByTazesId $bookByTazesId): self
+    {
+        if ($this->bookByTazesIds->removeElement($bookByTazesId)) {
+            // set the owning side to null (unless already changed)
+            if ($bookByTazesId->getBook() === $this) {
+                $bookByTazesId->setBook(null);
+            }
         }
 
         return $this;
