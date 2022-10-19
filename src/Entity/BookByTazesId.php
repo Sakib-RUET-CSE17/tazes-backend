@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\BookByTazesIdRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BookByTazesIdRepository::class)]
@@ -18,6 +20,17 @@ class BookByTazesId
 
     #[ORM\ManyToOne(inversedBy: 'bookByTazesIds')]
     private ?Book $book = null;
+
+    #[ORM\ManyToOne(inversedBy: 'books')]
+    private ?BookLend $bookLend = null;
+
+    #[ORM\ManyToMany(targetEntity: BookReturn::class, mappedBy: 'books')]
+    private Collection $bookReturns;
+
+    public function __construct()
+    {
+        $this->bookReturns = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -44,6 +57,45 @@ class BookByTazesId
     public function setBook(?Book $book): self
     {
         $this->book = $book;
+
+        return $this;
+    }
+
+    public function getBookLend(): ?BookLend
+    {
+        return $this->bookLend;
+    }
+
+    public function setBookLend(?BookLend $bookLend): self
+    {
+        $this->bookLend = $bookLend;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, BookReturn>
+     */
+    public function getBookReturns(): Collection
+    {
+        return $this->bookReturns;
+    }
+
+    public function addBookReturn(BookReturn $bookReturn): self
+    {
+        if (!$this->bookReturns->contains($bookReturn)) {
+            $this->bookReturns->add($bookReturn);
+            $bookReturn->addBook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBookReturn(BookReturn $bookReturn): self
+    {
+        if ($this->bookReturns->removeElement($bookReturn)) {
+            $bookReturn->removeBook($this);
+        }
 
         return $this;
     }

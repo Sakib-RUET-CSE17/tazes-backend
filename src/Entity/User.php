@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Enum\RoleTypeEnum;
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -55,9 +57,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $mobile = null;
 
+    #[ORM\OneToMany(mappedBy: 'user_', targetEntity: BookLend::class)]
+    private Collection $bookLends;
+
+    #[ORM\OneToMany(mappedBy: 'user_', targetEntity: BookReturn::class)]
+    private Collection $bookReturns;
+
     public function __construct()
     {
         $this->type = RoleTypeEnum::User;
+        $this->bookLends = new ArrayCollection();
+        $this->bookReturns = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -216,6 +226,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setMobile(?string $mobile): self
     {
         $this->mobile = $mobile;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, BookLend>
+     */
+    public function getBookLends(): Collection
+    {
+        return $this->bookLends;
+    }
+
+    public function addBookLend(BookLend $bookLend): self
+    {
+        if (!$this->bookLends->contains($bookLend)) {
+            $this->bookLends->add($bookLend);
+            $bookLend->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBookLend(BookLend $bookLend): self
+    {
+        if ($this->bookLends->removeElement($bookLend)) {
+            // set the owning side to null (unless already changed)
+            if ($bookLend->getUser() === $this) {
+                $bookLend->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, BookReturn>
+     */
+    public function getBookReturns(): Collection
+    {
+        return $this->bookReturns;
+    }
+
+    public function addBookReturn(BookReturn $bookReturn): self
+    {
+        if (!$this->bookReturns->contains($bookReturn)) {
+            $this->bookReturns->add($bookReturn);
+            $bookReturn->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBookReturn(BookReturn $bookReturn): self
+    {
+        if ($this->bookReturns->removeElement($bookReturn)) {
+            // set the owning side to null (unless already changed)
+            if ($bookReturn->getUser() === $this) {
+                $bookReturn->setUser(null);
+            }
+        }
 
         return $this;
     }
