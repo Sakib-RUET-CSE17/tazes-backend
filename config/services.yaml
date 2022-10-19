@@ -47,7 +47,13 @@ services:
         tags:
             - { name: sonata.admin, model_class: App\Entity\Book, controller: ~, manager_type: orm, group: admin, label: Book }
 
+    admin.book_by_tazes_id:
+        class: App\Admin\BookByTazesIdAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\BookByTazesId, controller: ~, manager_type: orm, group: admin, label: BookByTazesId }
+    
     admin.book_lend:
         class: App\Admin\BookLendAdmin
         tags:
             - { name: sonata.admin, model_class: App\Entity\BookLend, controller: ~, manager_type: orm, group: admin, label: BookLend }
+
