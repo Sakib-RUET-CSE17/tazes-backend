@@ -30,9 +30,6 @@ class Book
     #[ORM\Column(nullable: true)]
     private ?int $availableQty = null;
 
-    #[ORM\ManyToMany(targetEntity: BookLend::class, mappedBy: 'books')]
-    private Collection $bookLends;
-
     #[ORM\OneToMany(mappedBy: 'book', targetEntity: BookByTazesId::class)]
     private Collection $bookByTazesIds;
 
@@ -108,33 +105,6 @@ class Book
     public function setAvailableQty(?int $availableQty): self
     {
         $this->availableQty = $availableQty;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, BookLend>
-     */
-    public function getBookLends(): Collection
-    {
-        return $this->bookLends;
-    }
-
-    public function addBookLend(BookLend $bookLend): self
-    {
-        if (!$this->bookLends->contains($bookLend)) {
-            $this->bookLends->add($bookLend);
-            $bookLend->addBook($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBookLend(BookLend $bookLend): self
-    {
-        if ($this->bookLends->removeElement($bookLend)) {
-            $bookLend->removeBook($this);
-        }
 
         return $this;
     }
